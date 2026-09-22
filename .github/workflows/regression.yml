@@ -71,7 +71,7 @@ jobs:
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: "CI/CD Test Report - Status: ${{ job.status }}"
-        to: ilman.arif29@gmail.com
+        to: ilman.arif29@gmail.com, ferdinand.anton@ogya.co.id
         from: Automation CI/CD <no-reply@github.com>
         body: |
           Halo,
