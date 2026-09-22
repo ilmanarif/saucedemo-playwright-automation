@@ -1,0 +1,10 @@
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="7.3794189999999995">
+<testsuite name="login.spec.ts" timestamp="2026-09-21T08:18:31.018Z" hostname="chromium" tests="1" failures="0" skipped="0" time="5.511" errors="0">
+<testcase name="Modul Login SauceDemo › user dapat login dengan sukses menggunakan akun standar" classname="login.spec.ts" time="5.511">
+</testcase>
+</testsuite>
+<testsuite name="login.spec.ts" timestamp="2026-09-21T08:18:31.018Z" hostname="mobile" tests="1" failures="0" skipped="0" time="5.651" errors="0">
+<testcase name="Modul Login SauceDemo › user dapat login dengan sukses menggunakan akun standar" classname="login.spec.ts" time="5.651">
+</testcase>
+</testsuite>
+</testsuites>
