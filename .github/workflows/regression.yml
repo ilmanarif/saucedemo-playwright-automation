@@ -25,9 +25,8 @@ jobs:
       
     - name: Run Playwright tests
       run: npx playwright test
-      continue-on-error: true # Tetap lanjut membuat report walau ada test yang gagal
+      continue-on-error: true
       
-    # (Opsional) Generate Allure Report jika menggunakan allure-commandline
     - name: Generate Allure Report
       uses: simple-elf/allure-action@master
       if: always()
@@ -46,7 +45,6 @@ jobs:
           allure-report/
         retention-days: 30
 
-    # Mengirim Notifikasi Hasil Test ke Email
     - name: Send email notification
       uses: dawidd6/action-send-mail@v3
       if: always()
@@ -56,7 +54,7 @@ jobs:
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: "CI/CD Test Report - Status: ${{ job.status }}"
-        to: ilman.arif29@gmail.com
+        to: email-penerima@example.com
         from: Automation CI/CD <no-reply@github.com>
         body: |
           Halo,
