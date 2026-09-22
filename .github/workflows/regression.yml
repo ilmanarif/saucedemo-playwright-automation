@@ -11,7 +11,9 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Diperlukan agar workflow memiliki izin untuk melakukan push ke branch gh-pages
+      contents: read
+      pages: write
+      id-token: write
     steps:
     - uses: actions/checkout@v4
     
@@ -38,13 +40,17 @@ jobs:
       run: |
         allure generate allure-results --clean -o allure-report
 
-    # TAMBAHAN 1: Deploy Allure Report ke GitHub Pages secara otomatis
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    # Langkah untuk mengunggah halaman Allure ke GitHub Pages
+    - name: Upload page artifact
+      uses: actions/upload-pages-artifact@v3
       if: always()
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: allure-report
+        path: allure-report
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+      if: always()
 
     - name: Upload Playwright/Allure Artifacts
       uses: actions/upload-artifact@v4
@@ -56,7 +62,6 @@ jobs:
           allure-report/
         retention-days: 30
 
-    # TAMBAHAN 2: Menyertakan link GitHub Pages di dalam body email
     - name: Send email notification
       uses: dawidd6/action-send-mail@v3
       if: always()
