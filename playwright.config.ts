@@ -6,12 +6,14 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 4 : undefined,
   
+  // Gabungkan semua reporter menjadi satu di sini
   reporter: [
     ['html', { open: 'never' }],
-    ['junit', { outputFile: 'results.xml' }]
+    ['junit', { outputFile: 'results.xml' }],
+    ['allure-playwright']
   ],
   
- use: {
+  use: {
     baseURL: 'https://www.saucedemo.com',
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
