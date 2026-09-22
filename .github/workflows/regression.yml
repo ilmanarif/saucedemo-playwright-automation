@@ -10,6 +10,8 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Diperlukan agar workflow memiliki izin untuk melakukan push ke branch gh-pages
     steps:
     - uses: actions/checkout@v4
     
@@ -27,7 +29,6 @@ jobs:
       run: npx playwright test
       continue-on-error: true
       
-    # Ganti simple-elf/allure-action dengan instalasi Allure CLI manual
     - name: Install Allure Commandline
       if: always()
       run: npm install -g allure-commandline --save-dev
@@ -36,6 +37,14 @@ jobs:
       if: always()
       run: |
         allure generate allure-results --clean -o allure-report
+
+    # TAMBAHAN 1: Deploy Allure Report ke GitHub Pages secara otomatis
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: always()
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: allure-report
 
     - name: Upload Playwright/Allure Artifacts
       uses: actions/upload-artifact@v4
@@ -47,6 +56,7 @@ jobs:
           allure-report/
         retention-days: 30
 
+    # TAMBAHAN 2: Menyertakan link GitHub Pages di dalam body email
     - name: Send email notification
       uses: dawidd6/action-send-mail@v3
       if: always()
@@ -64,4 +74,7 @@ jobs:
           Pengujian otomatisasi regresi (Playwright) telah selesai dijalankan di server.
           Status Pipeline: ${{ job.status }}
           
-          Silakan cek repositori GitHub untuk melihat detail log dan mengunduh artifact laporan lengkap.
+          Anda dapat melihat laporan lengkap Allure secara interaktif melalui tautan berikut:
+          👉 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          
+          Silakan cek repositori GitHub untuk mengunduh artifact laporan lengkap jika diperlukan.
