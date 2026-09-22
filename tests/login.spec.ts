@@ -10,5 +10,6 @@ test.describe('Modul Login SauceDemo', () => {
 
     await expect(page).toHaveURL(/inventory\.html/);
     await expect(page.locator('.title')).toHaveText('Products');
+    //test
   });
 });
