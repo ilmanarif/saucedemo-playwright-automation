@@ -14,15 +14,19 @@ test('User dapat login dengan sukses menggunakan akun standar', async ({ page })
     await expect(page).toHaveURL(/.*dashboard.html/);
   });
   // --- NEGATIVE CASE 1: Password Salah ---
- test('User gagal login saat memasukkan password yang salah', async ({ page }) => {
-  const loginPage = new LoginPage(page);
+test('User gagal login saat memasukkan password yang salah', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    
+    await page.goto('/');
 
-  await page.goto('/');
-  await loginPage.login('standard_user', 'password_salah');
+    // Event listener untuk menangkap popup alert browser
+    page.once('dialog', async dialog => {
+      expect(dialog.message()).toContain('Login Gagal!');
+      await dialog.accept();
+    });
 
-  // Memastikan elemen error muncul dan berisi teks peringatan
-  await expect(loginPage.errorMessage).toBeVisible();
-});
+    await loginPage.login('standard_user', 'password_salah');
+  });
 
   // --- NEGATIVE CASE 2: Akun Terkunci (Locked Out User) ---
   test('User gagal login menggunakan akun yang terkunci', async ({ page }) => {
