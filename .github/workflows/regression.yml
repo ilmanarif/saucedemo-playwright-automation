@@ -5,6 +5,10 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  # Ditambahkan agar bisa menerima sinyal trigger dari repo aplikasi demo
+  repository_dispatch:
+    types: [run-automation]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -71,7 +75,7 @@ jobs:
         username: ${{ secrets.EMAIL_USERNAME }}
         password: ${{ secrets.EMAIL_PASSWORD }}
         subject: "CI/CD Test Report - Status: ${{ job.status }}"
-        to: ilman.arif29@gmail.com, ferdinand.anton@ogya.co.id
+        to: ilman.arif29@gmail.com
         from: Automation CI/CD <no-reply@github.com>
         body: |
           Halo,

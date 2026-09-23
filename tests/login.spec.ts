@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 
-test.describe('Modul Login SauceDemo', () => {
-  test('user dapat login dengan sukses menggunakan akun standar', async ({ page }) => {
-    const loginPage = new LoginPage(page);
+test('user dapat login dengan sukses menggunakan akun standar', async ({ page }) => {
+  const loginPage = new LoginPage(page);
 
-    await loginPage.goto();
-    await loginPage.login('standard_user', 'secret_sauce');
+  // WAJIB ADA: Membuka URL aplikasi lokal terlebih dahulu
+  await page.goto('/'); 
 
-    await expect(page).toHaveURL(/inventory\.html/);
-    await expect(page.locator('.title')).toHaveText('Products');
-    //test
-  });
+  // Menjalankan aksi login
+  await loginPage.login('standard_user', 'secret_sauce');
+
+  // Verifikasi
+  await expect(page).toHaveURL(/dashboard\.html/);
 });

@@ -14,7 +14,7 @@ export default defineConfig({
   ],
   
   use: {
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: 'http://localhost:3000/',
     trace: 'retain-on-failure',
     video: 'retain-on-failure',
     screenshot: 'only-on-failure',

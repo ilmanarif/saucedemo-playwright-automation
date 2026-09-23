@@ -1,5 +1,6 @@
 import { Page, Locator } from '@playwright/test';
 
+// Contoh penyesuaian di dalam pages/LoginPage.ts
 export class LoginPage {
   readonly page: Page;
   readonly usernameInput: Locator;
@@ -8,14 +9,10 @@ export class LoginPage {
 
   constructor(page: Page) {
     this.page = page;
-    // Menggunakan locator berbasis atribut data-test khas SauceDemo
-    this.usernameInput = page.locator('[data-test="username"]');
-    this.passwordInput = page.locator('[data-test="password"]');
-    this.loginButton = page.locator('[data-test="login-button"]');
-  }
-
-  async goto() {
-    await this.page.goto('/'); // Akan otomatis membuka baseURL dari config
+    // Sesuaikan dengan id yang ada di index.html aplikasi mock kita
+    this.usernameInput = page.locator('#user-name'); 
+    this.passwordInput = page.locator('#password');
+    this.loginButton = page.locator('#login-button');
   }
 
   async login(username: string, pass: string) {
