@@ -55,6 +55,25 @@ jobs:
     - name: Run Playwright tests
       run: npx playwright test
       continue-on-error: true
+
+      - name: Get Allure History
+      uses: actions/checkout@v4
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: allure-history-temp
+
+    - name: Restore Previous Allure History
+      if: always()
+      run: |
+        if [ -d "allure-history-temp/history" ]; then
+          mkdir -p allure-results/history
+          cp -r allure-history-temp/history/* allure-results/history/
+          echo "History successfully restored!"
+        else
+          echo "No previous history found, starting fresh."
+        fi
       
     - name: Install Allure Commandline
       if: always()
