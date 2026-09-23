@@ -30,7 +30,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: ilmanarif/demo-app-klien
-        token: ${{ secrets.ACCESS_TOKEN }}
         path: demo-app
 
     # 2. Install dependencies aplikasi demo dan jalankan di background
