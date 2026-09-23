@@ -10,9 +10,10 @@ export default defineConfig({
   reporter: [
     ['html', { open: 'never' }],
     ['junit', { outputFile: 'results.xml' }],
-    ['allure-playwright']
+    ['allure-playwright', { outputFolder: 'allure-results' }]
   ],
-  
+
+ 
   use: {
     baseURL: 'http://localhost:3000/',
     trace: 'retain-on-failure',
