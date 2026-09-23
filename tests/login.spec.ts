@@ -19,26 +19,27 @@ test('User gagal login saat memasukkan password yang salah', async ({ page }) =>
     
     await page.goto('/');
 
-    // Event listener untuk menangkap popup alert browser
+    // Menangkap popup alert dari backend Express
     page.once('dialog', async dialog => {
       expect(dialog.message()).toContain('Login Gagal!');
       await dialog.accept();
     });
 
-    await loginPage.login('standard_user', 'password_salah');
+    await loginPage.login('standard_user', 'salah_password');
   });
 
-  // --- NEGATIVE CASE 2: Akun Terkunci (Locked Out User) ---
   test('User gagal login menggunakan akun yang terkunci', async ({ page }) => {
     const loginPage = new LoginPage(page);
     
     await page.goto('/');
+
+    // Menangkap popup alert untuk akun terkunci / gagal login
+    page.once('dialog', async dialog => {
+      expect(dialog.message()).toContain('Login Gagal!');
+      await dialog.accept();
+    });
+
     await loginPage.login('locked_out_user', 'secret_sauce');
-    
-    // Verifikasi pesan error khusus akun terkunci
-    const errorMessage = page.locator('[data-test="error"]');
-    await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('Epic sadface: Sorry, this user has been locked out.');
   });
 
 });
