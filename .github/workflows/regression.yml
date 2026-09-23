@@ -24,8 +24,17 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
+
+    # 0. Ambil History dari branch gh-pages di awal agar workspace bersih
+    - name: Get Allure History
+      uses: actions/checkout@v4
+      if: always()
+      continue-on-error: true
+      with:
+        ref: gh-pages
+        path: allure-history-temp
         
-    # 1. Mengklon repo aplikasi demo (`demo-app-klien`) ke dalam runner automation
+    # 1. Mengklon repo aplikasi demo (`ecommerce-demo`) ke dalam runner automation
     - name: Checkout Demo App
       uses: actions/checkout@v4
       with:
@@ -37,7 +46,7 @@ jobs:
       run: |
         cd demo-app
         npm ci
-        # Jalankan server aplikasi di background (sesuaikan perintah start jika berbeda, misal: npm run dev)
+        # Jalankan server aplikasi di background
         npm run start &
         
     # 3. Menunggu beberapa detik atau memastikan port 3000 siap diakses
@@ -56,14 +65,7 @@ jobs:
       run: npx playwright test
       continue-on-error: true
 
-    - name: Get Allure History
-      uses: actions/checkout@v4
-      if: always()
-      continue-on-error: true
-      with:
-        ref: gh-pages
-        path: allure-history-temp
-
+    # 6. Pulihkan dan gabungkan riwayat lama ke allure-results yang baru
     - name: Restore Previous Allure History
       if: always()
       run: |
@@ -84,7 +86,7 @@ jobs:
       run: |
         allure generate allure-results --clean -o allure-report
 
-    # 6. Mengunggah halaman Allure ke GitHub Pages
+    # 7. Mengunggah halaman Allure ke GitHub Pages
     - name: Upload page artifact
       uses: actions/upload-pages-artifact@v3
       if: always()
@@ -106,7 +108,7 @@ jobs:
           allure-report/
         retention-days: 30
 
-    # 7. Kirim email notifikasi hasil pengujian
+    # 8. Kirim email notifikasi hasil pengujian
     - name: Send email notification
       uses: dawidd6/action-send-mail@v3
       if: always()
