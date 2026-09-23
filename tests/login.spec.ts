@@ -10,7 +10,6 @@ test('User dapat login dengan sukses menggunakan akun standar', async ({ page })
     await page.goto('/');
     await loginPage.login('standard_user', 'secret_sauce');
     
-    // Sesuaikan URL ekspektasi ke dashboard.html
     await expect(page).toHaveURL(/.*dashboard.html/);
   });
   // --- NEGATIVE CASE 1: Password Salah ---
@@ -19,7 +18,6 @@ test('User gagal login saat memasukkan password yang salah', async ({ page }) =>
     
     await page.goto('/');
 
-    // Menangkap popup alert dari backend Express
     page.once('dialog', async dialog => {
       expect(dialog.message()).toContain('Login Gagal!');
       await dialog.accept();
@@ -33,7 +31,6 @@ test('User gagal login saat memasukkan password yang salah', async ({ page }) =>
     
     await page.goto('/');
 
-    // Menangkap popup alert untuk akun terkunci / gagal login
     page.once('dialog', async dialog => {
       expect(dialog.message()).toContain('Login Gagal!');
       await dialog.accept();

@@ -13,7 +13,7 @@ test.describe('Pengujian Halaman Dashboard / Produk', () => {
     await loginPage.login('standard_user', 'secret_sauce');
 
     // 3. Validasi apakah berhasil masuk ke halaman produk/dashboard
-    await expect(page).toHaveURL(/.*inventory.html/);
+    await expect(page).toHaveURL(/.*dashboard.html/);
     
     // 4. Validasi elemen keranjang atau judul produk muncul
     const productTitle = page.locator('.title');
