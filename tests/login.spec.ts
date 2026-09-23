@@ -11,7 +11,7 @@ test.describe('Pengujian Fitur Login (Positive & Negative Case)', () => {
     await loginPage.login('standard_user', 'secret_sauce');
     
     // Verifikasi berhasil masuk ke halaman inventaris/produk
-    await expect(page).toHaveURL(/.*inventory.html/);
+    await expect(page).toHaveURL(/.*dashboard.html/);
   });
 
   // --- NEGATIVE CASE 1: Password Salah ---
