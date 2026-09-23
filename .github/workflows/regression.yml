@@ -5,7 +5,7 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  # Ditambahkan agar bisa menerima sinyal trigger dari repo aplikasi demo
+  # Menerima sinyal trigger dari repo aplikasi demo
   repository_dispatch:
     types: [run-automation]
   workflow_dispatch:
@@ -25,12 +25,34 @@ jobs:
       with:
         node-version: lts/*
         
+    # 1. Mengklon repo aplikasi demo (`demo-app-klien`) ke dalam runner automation
+    - name: Checkout Demo App
+      uses: actions/checkout@v4
+      with:
+        repository: ilmanarif/demo-app-klien
+        token: ${{ secrets.ACCESS_TOKEN }}
+        path: demo-app
+
+    # 2. Install dependencies aplikasi demo dan jalankan di background
+    - name: Start Local Demo App
+      run: |
+        cd demo-app
+        npm ci
+        # Jalankan server aplikasi di background (sesuaikan perintah start jika berbeda, misal: npm run dev)
+        npm run start &
+        
+    # 3. Menunggu beberapa detik atau memastikan port 3000 siap diakses
+    - name: Wait for App to be Ready
+      run: npx wait-on http://localhost:3000/ --timeout 30000
+
+    # 4. Install dependencies untuk repo automation Playwright
     - name: Install dependencies
       run: npm ci
       
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
       
+    # 5. Jalankan tes Playwright
     - name: Run Playwright tests
       run: npx playwright test
       continue-on-error: true
@@ -44,7 +66,7 @@ jobs:
       run: |
         allure generate allure-results --clean -o allure-report
 
-    # Langkah untuk mengunggah halaman Allure ke GitHub Pages
+    # 6. Mengunggah halaman Allure ke GitHub Pages
     - name: Upload page artifact
       uses: actions/upload-pages-artifact@v3
       if: always()
@@ -66,6 +88,7 @@ jobs:
           allure-report/
         retention-days: 30
 
+    # 7. Kirim email notifikasi hasil pengujian
     - name: Send email notification
       uses: dawidd6/action-send-mail@v3
       if: always()
