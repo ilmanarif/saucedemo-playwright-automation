@@ -15,7 +15,7 @@ export class LoginPage {
     
     // Sesuaikan selector ini dengan id, class, atau atribut error di HTML aplikasi Anda
     // (Contoh: '#error-message', '.alert-danger', atau '[data-test="error"]')
-    this.errorMessage = page.locator('#error-message, .error-message, [data-test="error"]');
+    this.errorMessage = page.locator('#error-message');
   }
 
   async login(username: string, pass: string) {
