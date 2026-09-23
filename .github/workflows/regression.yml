@@ -29,7 +29,7 @@ jobs:
     - name: Checkout Demo App
       uses: actions/checkout@v4
       with:
-        repository: ilmanarif/demo-app-klien
+        repository: ilmanarif/ecommerce-demo
         path: demo-app
 
     # 2. Install dependencies aplikasi demo dan jalankan di background
@@ -42,7 +42,7 @@ jobs:
         
     # 3. Menunggu beberapa detik atau memastikan port 3000 siap diakses
     - name: Wait for App to be Ready
-      run: npx wait-on http://localhost:3000/ --timeout 30000
+      run: npx wait-on http://localhost:3000/
 
     # 4. Install dependencies untuk repo automation Playwright
     - name: Install dependencies
