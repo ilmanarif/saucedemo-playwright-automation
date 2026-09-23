@@ -1,18 +1,21 @@
 import { Page, Locator } from '@playwright/test';
 
-// Contoh penyesuaian di dalam pages/LoginPage.ts
 export class LoginPage {
   readonly page: Page;
   readonly usernameInput: Locator;
   readonly passwordInput: Locator;
   readonly loginButton: Locator;
+  readonly errorMessage: Locator; // Tambahan untuk menangkap pesan error
 
   constructor(page: Page) {
     this.page = page;
-    // Sesuaikan dengan id yang ada di index.html aplikasi mock kita
     this.usernameInput = page.locator('#user-name'); 
     this.passwordInput = page.locator('#password');
     this.loginButton = page.locator('#login-button');
+    
+    // Sesuaikan selector ini dengan id, class, atau atribut error di HTML aplikasi Anda
+    // (Contoh: '#error-message', '.alert-danger', atau '[data-test="error"]')
+    this.errorMessage = page.locator('#error-message, .error-message, [data-test="error"]');
   }
 
   async login(username: string, pass: string) {
