@@ -56,7 +56,7 @@ jobs:
       run: npx playwright test
       continue-on-error: true
 
-      - name: Get Allure History
+    - name: Get Allure History
       uses: actions/checkout@v4
       if: always()
       continue-on-error: true
