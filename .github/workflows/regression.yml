@@ -25,6 +25,18 @@ jobs:
       with:
         node-version: lts/*
 
+        # Cek isi folder allure-results sebelum di-generate
+    - name: Check allure-results contents
+      if: always()
+      run: |
+        echo "Checking allure-results folder:"
+        ls -la allure-results || echo "Folder allure-results tidak ditemukan!"
+
+    - name: Generate Allure Report
+      if: always()
+      run: |
+        allure generate allure-results --clean -o allure-report
+
     # 0. Ambil History dari branch gh-pages di awal agar workspace bersih
     - name: Get Allure History
       uses: actions/checkout@v4
