@@ -9,7 +9,6 @@ node_modules/
 # Allure & Test Reports
 /allure-results/
 /allure-report/
-/pages/
 results.xml
 
 # Environment Variables
